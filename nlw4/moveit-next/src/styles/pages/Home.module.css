@@ -1,0 +1,30 @@
+.container {
+  height: 100vh;
+  max-width: 892px;
+  margin: 0 auto;   /* centralizar */
+  padding: 2.5rem 2rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.container section {
+  flex: 1;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6.25rem;
+  align-content: center;
+
+  margin-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+
+@media(max-width: 840px) {
+  .container section {
+    grid-template-columns: 1fr;
+  }
+}
+
+
