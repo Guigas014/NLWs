@@ -1,21 +1,41 @@
-import { ArrowLeft, Camera } from "phosphor-react"
+import { useState, FormEvent } from 'react'
+import { ArrowLeft } from "phosphor-react"
 
 import { FeedbackType, feedbackTypes } from '..'
 import { CloseButton } from '../../CloseButton'
+import { ScreenshotButton } from '../ScreenshotButton'
 
 
 interface FeedbackContentStepProps {
   feedbackType: FeedbackType;
   onFeedbackRestartRequested: () => void;
+  onFeedbackSent: () => void;
 }
 
 
 export function FeedbackContentStep({ 
   feedbackType,
-  onFeedbackRestartRequested
+  onFeedbackRestartRequested,
+  onFeedbackSent,
   }: FeedbackContentStepProps) {
  
+  const [screenshot, setScreenshot] = useState<string | null>(null)
+  const [comment, setComment] = useState('')
+
   const feedbackTypeInfo = feedbackTypes[feedbackType]
+
+  
+  function handleSubmitFeedback(event: FormEvent) {
+    event.preventDefault()  
+
+    console.log({
+      comment,
+      screenshot,  
+    })
+
+    onFeedbackSent()
+  }
+
 
 	return ( 
     <>
@@ -43,9 +63,10 @@ export function FeedbackContentStep({
         <CloseButton />
       </header>
 
-      <form className="my-4 w-full">
+      <form onSubmit={handleSubmitFeedback} className="my-4 w-full">
         <textarea
           placeholder="Conte com detalhes o que está acontecendo..."
+          onChange={event => setComment(event.target.value)}
           className="
           min-w-[304px]
           w-full
@@ -68,26 +89,15 @@ export function FeedbackContentStep({
         />
 
         <footer className="flex gap-2 mt-2">
-          <button
-            type="button"
-            className="
-            p-2
-            bg-zinc-800
-            rounded-md
-            border-transparent
-            hover:bg-zinc-700
-            transition-colors
-            focus:outline-none
-            focus:ring-2
-            focus:ring-offset-2
-            focus:ring-offset-zinc-900
-            focus:ring-brand-500"
-          >
-            <Camera className="w-6 h-6" />
-          </button>
+
+          <ScreenshotButton 
+            screenshot={screenshot}
+            onScreenshotTook = {setScreenshot}
+          />
           
           <button 
             type="submit"
+            disabled={comment.length === 0}
             className="
             p-2
             bg-brand-500
@@ -104,7 +114,9 @@ export function FeedbackContentStep({
             focus:ring-offset-2
             focus:ring-offset-zinc-900
             focus:ring-brand-500
-            transition-colors"
+            transition-colors
+            disabled:opacity-50
+            disabled:hover:bg-brand-500"
           >
             Enviar feedback
           </button>

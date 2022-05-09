@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { CloseButton } from '../CloseButton'
 import { FeedbackTypeStep } from './Steps/FeedbackTypeStep'
 import { FeedbackContentStep } from './Steps/FeedbackContentStep'
+import { FeedbackSuccessStep } from './Steps/FeedbackSuccessStep'
 
 import bugImageUrl from '../../assets/bug.svg'
 import ideaImageUrl from '../../assets/idea.svg'
@@ -39,9 +40,11 @@ export type FeedbackType = keyof typeof feedbackTypes
 
 export function WidgetForm() { 
    const [feedbackType, setFeedbackType] = useState<FeedbackType | null>(null)
+   const [feedbackSent, setFeedbackSent] = useState(false)
 
     
    function handleRestartFeedback() {
+     setFeedbackSent(false);
      setFeedbackType(null);
    }
 
@@ -60,7 +63,15 @@ export function WidgetForm() {
       md:w-auto"
     >
       
-
+    {feedbackSent ? (
+    
+      <FeedbackSuccessStep 
+        onFeedbackRestartRequested={handleRestartFeedback} 
+      />
+    
+    ) 
+    : (
+    <>
       {!feedbackType ? (
         <FeedbackTypeStep onFeedbackTypeChanged={setFeedbackType} />
       ) 
@@ -68,8 +79,12 @@ export function WidgetForm() {
         <FeedbackContentStep 
           feedbackType={feedbackType}
           onFeedbackRestartRequested={handleRestartFeedback} 
+          onFeedbackSent={() => setFeedbackSent(true)}
         /> 
       )}
+    </>
+    )}
+
       <footer className="text-xs text-neutral-400">
         Feito com ♥ pela <a href="https://rocketseat.com.br" 
                             className="underline underline-offset-2"
