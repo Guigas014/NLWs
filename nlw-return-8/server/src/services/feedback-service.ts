@@ -31,6 +31,12 @@ export class FeedbackService {
         `<div style="font-family: sans-serif; font-size: 16px; color: #111;">`,
           `<p>Tipo do feedback: ${type}</p>`,
           `<p>Comentário: ${comment}</p>`,
+          screenshot ? 
+            `<img 
+              style="width: 200px; height: 200px; border: solid transparent; border-radius: 10px; " 
+              src="${screenshot}" 
+            />` 
+          : null,
         `</div>`
       ].join('\n')  
     })
