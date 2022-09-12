@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { gestureHandlerRootHOC, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 import { Options } from '../Options';
 
@@ -10,7 +10,7 @@ import { styles } from './styles';
  
 
 
-export default function Widget() {
+export function Widget() {
   const bottomSheetRef = useRef<BottomSheet>(null); 
 
   function handleOpen() {
@@ -19,7 +19,7 @@ export default function Widget() {
 
 
   return ( 
-    <GestureHandlerRootView>
+    <>
       <TouchableOpacity
         onPress={handleOpen}
         style={styles.button}
@@ -46,9 +46,10 @@ export default function Widget() {
         <Options />
 
       </BottomSheet>
-    </GestureHandlerRootView>
+    </>
   ); 
  
 }
 
+export default gestureHandlerRootHOC(Widget);
 
