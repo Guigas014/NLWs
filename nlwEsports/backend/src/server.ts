@@ -6,6 +6,16 @@ import { convertHourToMinutes } from './utils/convert-hour-to-minutes'
 import { convertMinutesToHours } from './utils/convert-minutes-to-hours'
 
 
+interface Ads {
+  gameId: string;
+  name: string;
+  yearsPlaying: number;
+  discord: string;
+  weekDays: string;
+  hourStart: string;
+  hourEnd:  string;
+  useVoiceChannel: boolean;
+}
 
 const app = express();
 
@@ -33,10 +43,11 @@ app.get('/games', async (req, res) => {
 })
 
 //Criação de novo anúncio
-app.post('/games/:id/ads', async (request, res) => {
-  const gameId = request.params.id;
-  const body: any = request.body;
+app.post('/games/:id/ads', async (req, res) => {
+  const gameId = req.params.id;
+  const body: Ads = req.body;
 
+  console.log(gameId)
 
   const ad = await prisma.ad.create({
     data: {
@@ -44,10 +55,13 @@ app.post('/games/:id/ads', async (request, res) => {
       name: body.name,
       yearsPlaying: body.yearsPlaying,
       discord: body.discord,
-      weekDays: body.weekDays.join(','),
+      weekDays: String(body.weekDays),  //join
       hourStart: convertHourToMinutes(body.hourStart),
       hourEnd: convertHourToMinutes(body.hourEnd),
       useVoiceChannel: body.useVoiceChannel,
+    },
+    include: {
+      game: true
     },
   })
 
