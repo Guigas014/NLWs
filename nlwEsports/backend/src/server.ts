@@ -60,9 +60,9 @@ app.post('/games/:id/ads', async (req, res) => {
       hourEnd: convertHourToMinutes(body.hourEnd),
       useVoiceChannel: body.useVoiceChannel,
     },
-    include: {
-      game: true
-    },
+    //include: {
+      //game: true
+    //},
   })
 
   return res.status(201).json(ad);
