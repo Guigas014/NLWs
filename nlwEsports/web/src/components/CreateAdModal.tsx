@@ -3,7 +3,7 @@ import * as Checkbox from '@radix-ui/react-checkbox';
 import * as Select from '@radix-ui/react-select';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import * as Dialog from '@radix-ui/react-dialog';
-import { GameController, Check } from 'phosphor-react';
+import { GameController, Check, CaretDown } from 'phosphor-react';
 import axios from 'axios';
 
 import { Input } from './Form/Input';
@@ -84,28 +84,51 @@ export function CreateAdModal() {
 
                 <div className="flex flex-col gap-2">
                   <label htmlFor="game" className="font-semibold">Qual o game?</label>
-                  <select 
-                    name="game"
-                    id="game" 
-                    defaultValue=""
-                    className="
-                      bg-zinc-900 
-                      py-3 
-                      px-4 
-                      rounded 
-                      text-sm 
-                      placeholder:text-zinc-500
-                      appearence-none"
 
-                  >
-                    <option disabled value="">
-                      Selecione o game que deseja jogar
-                    </option>
+                  <Select.Root name="game"> 
+                    <Select.Trigger
+                      id="game" 
+                      className="
+                        bg-zinc-900 
+                        py-3 
+                        px-4 
+                        rounded 
+                        text-sm 
+                        placeholder:text-zinc-500
+                        flex
+                        justify-between 
+                        appearence-none"
+                      >
+                      <Select.Value placeholder="Selecione o game que deseja jogar" />
+                      <CaretDown size={20} />
+                    </Select.Trigger>
+                    
+                    <Select.Content
+                      className="
+                        bg-zinc-500 
+                        py-3 
+                        px-4
+                        fixed
+                        w-[400px]
+                        top-[175px]
+                        rounded 
+                        text-sm 
+                        appearence-none"
+                    >
+                        {games.map(game => {
+                          return ( 
+                            <Select.Item 
+                              key={game.id} 
+                              value={game.id} 
+                              className="hover:bg-violet-600 rounded px-2"
+                            >
+                              <Select.ItemText>{game.title}</Select.ItemText>
+                            </Select.Item>
+                          )
+                        })}
+                    </Select.Content>
+                  </Select.Root>
 
-                    {games.map(game => {
-                      return <option key={game.id} value={game.id}>{game.title}</option>
-                    })}
-                  </select> 
                 </div>
 
                 <div className="flex flex-col gap-2">
