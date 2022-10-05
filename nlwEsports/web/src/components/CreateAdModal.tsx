@@ -1,12 +1,17 @@
 import { useState, useEffect, FormEvent } from 'react';
+
 import * as Checkbox from '@radix-ui/react-checkbox';
 import * as Select from '@radix-ui/react-select';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import * as Dialog from '@radix-ui/react-dialog';
+import * as AlertDialog from '@radix-ui/react-alert-dialog';
+
 import { GameController, Check, CaretDown } from 'phosphor-react';
+
 import axios from 'axios';
 
 import { Input } from './Form/Input';
+import { Alert } from './Alert';
 
 
 interface Game {
@@ -14,12 +19,18 @@ interface Game {
   title: string;
 }
 
+interface Alert {
+  title: string;
+  content: string;
+}
 
 
 export function CreateAdModal() {
   const [ games, setGames ] = useState<Game[]>([]);  
   const [ weekDays, setWeekDays ] = useState<string[]>([]);  
   const [ useVoiceChannel, setUseVoiceChannel ] = useState(false);  
+  const [ alertState, setAlertState ] = useState(false);
+  const [ alertInfoState, setAlertInfoState ] = useState(true);
 
 
   useEffect(() => {
@@ -34,13 +45,15 @@ export function CreateAdModal() {
   async function handleCreateAd(event: FormEvent) {
     event.preventDefault()
 
+    //setAlertState(false)
+
     const formData = new FormData(event.target as HTMLFormElement)
     const data = Object.fromEntries(formData)
 
     //Validação fazer
 
     try {
-      axios.post(`http://localhost:3333/games/${data.game}/ads`, {
+      await axios.post(`http://localhost:3333/games/${data.game}/ads`, {
         "name": data.name,
         "yearsPlaying": Number(data.yearsPlaying),
         "discord": data.discord,
@@ -50,16 +63,21 @@ export function CreateAdModal() {
         "useVoiceChannel": useVoiceChannel  
       })
     
-      alert("Anúncio criado com sucesso!")
+
+      setAlertInfoState(true)
+      setAlertState(true)
+
     } catch (err) {
-      console.log(err)
-      alert("Erro ao criar o anúncio!")
+      setAlertInfoState(false)
+      setAlertState(true)
     }
   }
 
+  
+
 
   return (
-
+      <>
         <Dialog.Portal>
           <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
 
@@ -316,7 +334,21 @@ export function CreateAdModal() {
               </form>   
           
           </Dialog.Content>
+
+
         </Dialog.Portal>
+
+        <AlertDialog.Root open={alertState} onOpenChange={setAlertState}>
+          <Alert 
+            title = {
+              alertInfoState == true ? "Sucesso!!" : "Ops! deu erro!"
+            }
+            content = {
+              alertInfoState == true ? "Anúncio criado com suceso!" : "Erro ao criar o anúncio" 
+            }
+          />
+        </AlertDialog.Root>
+      </>
       )  
 
 }
