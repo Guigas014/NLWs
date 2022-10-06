@@ -14,10 +14,12 @@
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-select": "^1.0.0",
     "@radix-ui/react-toggle-group": "^1.0.0",
+    "@trendyol-js/react-carousel": "^3.0.0",
     "axios": "^0.27.2",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-multi-carousel": "^2.8.2",
     "react-toastify": "^9.0.8"
   },
   "devDependencies": {

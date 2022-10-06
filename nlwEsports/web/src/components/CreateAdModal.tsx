@@ -7,7 +7,6 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 
 import { GameController, Check, CaretDown } from 'phosphor-react';
-
 import axios from 'axios';
 
 import { Input } from './Form/Input';
@@ -341,7 +340,7 @@ export function CreateAdModal() {
         <AlertDialog.Root open={alertState} onOpenChange={setAlertState}>
           <Alert 
             title = {
-              alertInfoState == true ? "Sucesso!!" : "Ops! deu erro!"
+              alertInfoState == true ? "Sucesso!!" : "Ops! Deu erro!"
             }
             content = {
               alertInfoState == true ? "Anúncio criado com suceso!" : "Erro ao criar o anúncio" 

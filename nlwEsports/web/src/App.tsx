@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import axios from 'axios';
-
-import './styles/main.css';
+import { ScrollingCarousel, Carousel } from '@trendyol-js/react-carousel';
+import { CaretLeft, CaretRight } from 'phosphor-react';
 
 import logoImg from './assets/logo-nlw-esports.svg';
 
 import { GameBanner } from './components/GameBanner';
 import { CreateAdBanner } from './components/CreateAdBanner';
 import { CreateAdModal } from './components/CreateAdModal';
+
+import './styles/main.css';
+
+import axios from 'axios';
 
 
 interface Game {
@@ -32,6 +35,20 @@ function App() {
   }, [])
   
 
+  function moveCarousel(test: string) {
+    const carousel = document.getElementsByClassName('carousel')
+
+    //console.log(carousel.item(0)) 
+
+    if (test == "right") {
+      carousel.item(0).scrollBy(200, 0)
+    }
+    if (test == "left") {
+      carousel.item(0).scrollBy(-200, 0)
+    }
+  }
+
+
 
   return (
     <div className="max-w-[1280px] mx-auto flex flex-col items-center my-10">
@@ -43,20 +60,38 @@ function App() {
       </h1>
 
 
-      <div className="grid grid-cols-8 gap-6 my-16">
-        
-
-        {games.map(game => {
-          return (
-            <GameBanner
-              key={game.id}
-              title={game.title} 
-              bannerURL={game.bannerURL} 
-              adsCount={game._count.ads} 
-            />        
-          )  
-        })}
+      <div className="flex">
+      <div className="flex mr-4 text-white">
+        <button onClick={() => moveCarousel("left")}><CaretLeft size={30} /></button>
       </div>
+      <div className="
+        flex 
+        w-[85vw] 
+        overflow-hidden 
+        scroll-behavior-smooth 
+        my-16 
+        carousel"
+      >
+
+        <div className="flex">
+          {games.map(game => {
+            return (
+              <GameBanner
+                key={game.id}
+                title={game.title} 
+                bannerURL={game.bannerURL} 
+                adsCount={game._count.ads} 
+              />        
+            )  
+          })}
+        </div>
+
+      </div>
+      <div className="flex ml-4 text-white">
+        <button onClick={() => moveCarousel("right")}><CaretRight size={30} /></button>
+      </div>
+      </div>
+
       
 
       <Dialog.Root> 
