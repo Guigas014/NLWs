@@ -1,51 +1,67 @@
-import { useState, useEffect } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
-import { ScrollingCarousel, Carousel } from '@trendyol-js/react-carousel';
-import { CaretLeft, CaretRight } from 'phosphor-react';
+  import { useState, useEffect } from 'react';
+  import * as Dialog from '@radix-ui/react-dialog';
+  import { ScrollingCarousel, Carousel } from '@trendyol-js/react-carousel';
+  import { CaretLeft, CaretRight } from 'phosphor-react';
 
-import logoImg from './assets/logo-nlw-esports.svg';
+  import logoImg from './assets/logo-nlw-esports.svg';
 
-import { GameBanner } from './components/GameBanner';
-import { CreateAdBanner } from './components/CreateAdBanner';
-import { CreateAdModal } from './components/CreateAdModal';
+  import { GameBanner } from './components/GameBanner';
+  import { CreateAdBanner } from './components/CreateAdBanner';
+  import { CreateAdModal } from './components/CreateAdModal';
 
-import './styles/main.css';
+  import './styles/main.css';
 
-import axios from 'axios';
+  import axios from 'axios';
 
 
-interface Game {
-  id: string;
-  title: string;
-  bannerURL:string;
-  _count: {
-    ads: number;
+  interface Game {
+    id: string;
+    title: string;
+    bannerURL:string;
+    _count: {
+      ads: number;
+    }
   }
-}
 
-function App() {
-  const [ games, setGames ] = useState<Game[]>([]);  
+  function App() {
+    const [ games, setGames ] = useState<Game[]>([]);  
 
+    const carousel = document.getElementsByClassName('carousel').item(0)
+    const bLeft = document.getElementsByClassName('buttonLeft').item(0)
+    const bRight = document.getElementsByClassName('buttonRight').item(0)
 
-  useEffect(() => {
-    axios('http://localhost:3333/games')
-      .then(response => {
-        setGames(response.data)
-      })      
-  }, [])
-  
+    useEffect(() => {
+      axios('http://localhost:3333/games')
+        .then(response => {
+          setGames(response.data)
+        })      
+    }, [])
+    
 
-  function moveCarousel(test: string) {
-    const carousel = document.getElementsByClassName('carousel')
+    function moveCarousel(test: string) {
 
-    //console.log(carousel.item(0)) 
+      if (test == "right") {
+        carousel.scrollBy(200, 0)
+      }
+      if (test == "left") {
+        carousel.scrollBy(-200, 0)
+      }
 
-    if (test == "right") {
-      carousel.item(0).scrollBy(200, 0)
-    }
-    if (test == "left") {
-      carousel.item(0).scrollBy(-200, 0)
-    }
+      console.log(carousel.scrollLeft) 
+
+      if (carousel.scrollLeft <= 199) {
+        bLeft.hidden = true
+      }
+      else {
+        bLeft.hidden = false
+      }
+
+      if (carousel.scrollLeft >= (carousel.scrollLeftMax - 199)) {
+        bRight.hidden = true
+      }
+      else {
+        bRight.hidden = false
+      }
   }
 
 
@@ -61,15 +77,18 @@ function App() {
 
 
       <div className="flex">
-      <div className="flex mr-4 text-white">
-        <button onClick={() => moveCarousel("left")}><CaretLeft size={30} /></button>
+      <div className="flex min-w-[30px] mr-4 text-white">
+        <button onClick={() => moveCarousel("left")} className="buttonLeft" hidden>
+          <CaretLeft size={30} />
+        </button>
       </div>
+
       <div className="
         flex 
         w-[85vw] 
-        overflow-hidden 
-        scroll-behavior-smooth 
         my-16 
+        overflow-hidden 
+        scroll-smooth 
         carousel"
       >
 
@@ -85,10 +104,12 @@ function App() {
             )  
           })}
         </div>
-
       </div>
-      <div className="flex ml-4 text-white">
-        <button onClick={() => moveCarousel("right")}><CaretRight size={30} /></button>
+
+      <div className="flex min-w-[30px] ml-4 text-white">
+        <button onClick={() => moveCarousel("right")} className="buttonRight">
+          <CaretRight size={30} />
+        </button>
       </div>
       </div>
 
