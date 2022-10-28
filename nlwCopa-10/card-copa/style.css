@@ -1,0 +1,72 @@
+* {
+  margin: 0;   
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body * {
+  font-family: 'Roboto';
+}
+
+body {
+  background-image: linear-gradient(151.79deg, #0F2B05 4.34%, #000 87.6%);
+  height: 110vh;
+
+  text-align: center;
+}
+
+header {
+  padding: 75px 0;
+}
+
+.card {
+  display: inline-block;    /**inline-block _ usa as propriedades inline e block (text-align)**/ 
+  width: 354px;
+  height: 508px;
+
+  background-image: url(./assets/bg-explorer.svg);
+
+  opacity: 0;
+  transform: translateY(-100px);
+  animation: appear 0.4s forwards;
+
+  cursor: pointer;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.card > img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #F7DD43;
+  margin-top: 115px;
+}
+
+.info {
+  margin-top: 100px;
+  text-align: left;
+  margin-left: 70px;
+  color: white;
+}
+
+.info h1 {
+  font-size: 18px;
+  line-height: 140%;
+}
+
+.info p {
+  font-size: 14px;
+  line-height: 160%;
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
