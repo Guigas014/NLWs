@@ -68,6 +68,7 @@ export function Home() {
                 style={styles.name}
               />
             </View>
+
           </View>
         </View>
 
