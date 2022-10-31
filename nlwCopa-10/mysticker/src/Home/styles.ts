@@ -13,11 +13,12 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 10,
     margin: 24,
-    padding: 5
+    padding: 5,
   },
   camera: {
     width: Dimensions.get("screen").width - 58,
-    height: 300
+    height: 300,
+    elevation: 1
   },
   player: {
     width: '100%',
@@ -31,5 +32,15 @@ export const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#000',
     textTransform: 'uppercase'
+  },
+  sticker: {
+    backgroundColor: '#373D98',
+  },
+  retry: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginTop: 22,
+    marginBottom: 10
   }
 });
