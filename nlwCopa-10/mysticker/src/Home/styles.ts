@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   name: {
     fontSize: 22,
     fontWeight: '900',
-    color: '#000',
+    color: 'green',
     textTransform: 'uppercase'
   },
   sticker: {
