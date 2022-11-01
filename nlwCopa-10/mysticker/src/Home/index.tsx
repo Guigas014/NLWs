@@ -31,6 +31,10 @@ export function Home() {
     await Sharing.shareAsync("file://" + screenshot);
   }
 
+  function delay() {
+    setTimeout(() => shareScreenShot(), 2000);
+  }
+
 
   useEffect(() => {
      Camera.requestCameraPermissionsAsync()
@@ -58,7 +62,7 @@ export function Home() {
                 <Image 
                   source={{ uri: photo ? photo : 'https://services.xavier.edu/TDPortal/Images/Viewer?fileName=738ae496-8b4d-4d9f-81cd-b7f92854c6ba.jpeg' }} 
                   style={styles.camera} 
-                  onLoad={shareScreenShot}
+                  onLoad={delay}
                 />
             }
 
