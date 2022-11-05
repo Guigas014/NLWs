@@ -9,6 +9,7 @@ import { Pools } from './src/screens/Pools';
 
 import { THEME } from './styles/theme';
 import { AuthContextProvider } from './src/contexts/AuthContext';
+import { Routes } from './src/routes';
 
 
 export default function App() {
@@ -26,7 +27,7 @@ export default function App() {
         />
 
         {
-          fontsLoad ? <Pools /> : <Loading />
+          fontsLoad ? <Routes /> : <Loading />
         }      
 
       </AuthContextProvider>
