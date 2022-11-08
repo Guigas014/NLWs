@@ -35,6 +35,7 @@ export function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessCon
 
   const when = dayjs(data.date).locale(ptBR).format("DD [de] MMMM [de] YYYY [as] HH:00[h]");
 
+
   return (
     <VStack
       w="full"
@@ -72,13 +73,30 @@ export function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessCon
 
       {
         !data.guess &&
-        <Button size="xs" w="full" bgColor="green.500" mt={4} onPress={onGuessConfirm}>
+        <Button 
+          size="xs" 
+          w="full" 
+          bgColor={Date() < data.date ? "gray.500" : "green.500"} 
+          mt={4} 
+          onPress={onGuessConfirm}
+          _pressed={{ opacity: 70 }}
+          >
           <HStack alignItems="center">
-            <Text color="white" fontSize="xs" fontFamily="heading" mr={3}>
-              CONFIRMAR PALPITE
+            <Text 
+              color={Date() < data.date ? "gray.400" : "white"} 
+              fontSize="xs" 
+              fontFamily="heading" 
+              mr={3}
+            >
+              {Date() < data.date ? 'TEMPO ESGOTADO' : 'CONFIRMAR PALPITE'} 
             </Text>
 
-            <Check color={colors.white} size={sizes[4]} />
+            {
+              Date() < data.date ? 
+                '' 
+              : 
+                <Check color={colors.white} size={sizes[4]} />
+            } 
           </HStack>
         </Button>
       }

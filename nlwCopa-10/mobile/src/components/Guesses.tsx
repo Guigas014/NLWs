@@ -75,7 +75,8 @@ export function Guesses({ poolId, code }: Props) {
       
       if (error) {
         toast.show({
-          title: 'Não foi possível enviar o palpite',
+          //title: 'Não foi possível enviar o palpite',
+          title: error.response?.data?.message,
           placement: 'top',
           bgColor: 'red.500'
         }); 
