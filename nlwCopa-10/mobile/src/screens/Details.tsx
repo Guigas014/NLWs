@@ -10,6 +10,8 @@ import { PoolHeader } from '../components/PoolHeader';
 import { EmptyMyPoolList } from '../components/EmptyMyPoolList';
 import { Option } from '../components/Option';
 import { Guesses } from '../components/Guesses';
+import { Ranking } from '../components/Ranking';
+import { EmptyRakingList } from '../components/EmptyRakingList';
 
 import { api } from '../services/api';
 
@@ -99,7 +101,14 @@ export function Details() {
               />
             </HStack>       
 
-            <Guesses poolId={poolDetails.id} code={poolDetails.code} />
+            {
+              optionSelected === 'guesses' ?
+                <Guesses poolId={poolDetails.id} code={poolDetails.code} />
+              :
+                //<Ranking />
+                <EmptyRakingList />
+            }            
+
 
           </VStack>
         :
