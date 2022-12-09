@@ -105,8 +105,7 @@ export function Details() {
               optionSelected === 'guesses' ?
                 <Guesses poolId={poolDetails.id} code={poolDetails.code} />
               :
-                //<Ranking />
-                <EmptyRakingList />
+                <Ranking />
             }            
 
 
