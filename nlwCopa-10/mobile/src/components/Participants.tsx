@@ -3,6 +3,7 @@ import { Avatar, Center, HStack, Text } from 'native-base';
 export interface ParticipantProps {
   id: string;
   user: {
+    id: string;
     name: string;
     avatarUrl: string;
   };
@@ -28,7 +29,7 @@ export function Participants({participants, count }: Props) {
             marginRight={-3}
             borderColor="gray.800"
           >
-           {participant.user?.name?.at(0).toUpperCase()}
+           {participant.user?.name?.toUpperCase()}
           </Avatar>
         ))
       }

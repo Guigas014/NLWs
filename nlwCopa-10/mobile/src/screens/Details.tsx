@@ -10,8 +10,9 @@ import { PoolHeader } from '../components/PoolHeader';
 import { EmptyMyPoolList } from '../components/EmptyMyPoolList';
 import { Option } from '../components/Option';
 import { Guesses } from '../components/Guesses';
-import { Ranking } from '../components/Ranking';
+import { RankingList } from '../components/RankingList';
 import { EmptyRakingList } from '../components/EmptyRakingList';
+import { Ranking } from '../components/Ranking';
 
 import { api } from '../services/api';
 
@@ -105,7 +106,7 @@ export function Details() {
               optionSelected === 'guesses' ?
                 <Guesses poolId={poolDetails.id} code={poolDetails.code} />
               :
-                <Ranking />
+                <RankingList pool={poolDetails} />
             }            
 
 

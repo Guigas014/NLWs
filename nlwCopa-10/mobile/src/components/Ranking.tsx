@@ -1,23 +1,28 @@
 import { useState, useEffect } from 'react';
 import { Box, useToast, FlatList, VStack, HStack, Avatar, Heading, Text } from 'native-base';
 
-import { api } from '../services/api';
-
-import { EmptyRakingList } from '../components/EmptyRakingList';
+import { ParticipantProps } from './Participants';
 
 
-export function Ranking() {
-  const position = 4;
+interface Props {
+  participant: ParticipantProps;
+  ownerId: string;
+  position: number;
+}
+
+export function Ranking({ participant, ownerId, position }: Props) {
+  //const [owner, setOwner] = useState<string>(""); 
+  //const [position, setPosition] = useState(0);
+
+  //console.log(participant.user.id)
+
+  //useEffect(() => {
+    //participant.id === ownerId ? setOwner("você") : setOwner("não você")
+    //setPosition(position + 1)
+  //}, []);
 
 
   return (
-    //<FlatList
-      ////data={}
-      ////keyExtractor={}  
-      ////renderItem={() => ()}
-      //_contentContainerStyle={{ pb: 20 }}
-      //ListEmptyComponent={() => <EmptyRakingList />}
-    ///>
     <VStack
       w="full"
       bgColor="gray.800"
@@ -38,8 +43,8 @@ export function Ranking() {
 
       <HStack>
           <Avatar
-            //key={participant.id}
-            source={{ uri: "https://github.com/Guigas014.png"}}
+            key={participant.id}
+            source={{ uri: participant.user.avatarUrl }}
             w={12}
             h={12}
             rounded="full"
@@ -50,8 +55,10 @@ export function Ranking() {
 
           <VStack ml={5} justifyContent="center">
             <Heading color="white" fontSize="md" fontFamily="heading" mb={0.5}>
-              Guilherme Alves
-              <Text color="gray.200" fontSize="xs">(você)</Text>
+              {participant.user.name}
+             <Text color="gray.200" fontSize="xs">
+                {participant.user.id === ownerId ? " (você)" : ""}
+              </Text>
             </Heading>
 
             <Text color="gray.200" fontSize="xs">
@@ -61,7 +68,8 @@ export function Ranking() {
         </HStack>
 
        <Box 
-        bgColor={position > 3 ? "gray.600" : "yellow.500"} 
+        bgColor={position > 1 ? "gray.600" : "yellow.500"} 
+        //bgColor="yellow.500"
         w={10} 
         h={6} 
         rounded="full" 
@@ -69,11 +77,12 @@ export function Ranking() {
         justifyContent="center" 
       >
          <Text 
-          color={position > 3 ? "gray.300" : "black"} 
+          color={position > 1 ? "gray.300" : "black"} 
+          //color="black"
           fontSize="md" 
           fontFamily="medium"
          >
-          1°
+          {position}°
          </Text>    
        </Box>
 

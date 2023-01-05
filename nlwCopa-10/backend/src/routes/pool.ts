@@ -188,7 +188,9 @@ export async function poolRoutes(fastify: FastifyInstance) {
               id: true,
               user: {
                 select: {
+                  id: true,
                   avatarUrl: true,
+                  name: true,
                 }
               }
             },
