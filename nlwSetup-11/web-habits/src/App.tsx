@@ -1,24 +1,12 @@
-import { useState, useEffect } from 'react'
+import './styles/global.css';
 import { Habit } from './components/Habit';
 
-import './styles/global.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-  
-  useEffect(() => {
-    setCount(count + 1)
-  }, []);
-    
-
-
+export function App() {
   return (
-   <>
-    <Habit completed={count} /> 
-    <Habit completed={count} /> 
-    <Habit completed={count} /> 
-  </>
+   <div className="">
+
+   </div>
   )
 }
 
-export default App
