@@ -1,8 +1,12 @@
-import { View, Text, ScrollView } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
 
+import { api } from '../lib/axios';
 import { generateRangeDatesFromYearStart } from '../utils/generate-range-between-dates';
 import { HabitDay, DAY_SIZE } from './HabitDay';
+import { Loading } from './Loading';
 
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -11,9 +15,45 @@ const minimumSummaryDatesSizes = 18 * 8;
 const amountOfDaysToFill = minimumSummaryDatesSizes - datesFromYearStart.length;
 
 
-export function SummaryTable() {
+type SummaryProps = Array<{
+  id: string;
+  date: string;
+  amount: number;
+  completed: number;
+}>
 
+
+export function SummaryTable() {
+  const [summary, setSummary] = useState<SummaryProps | null>(null);
+  const [loading, setLoading] = useState(true);
   const { navigate } = useNavigation();  
+
+  async function fetchData() {
+    try {
+      setLoading(true);
+      const response = await api.get('/summary');
+      setSummary(response.data);
+ 
+      console.log(summary);
+      
+    } catch (error) {
+      Alert.alert('Ops', 'Não foi pssível carregar o sumário!');
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+  useEffect(() => {
+    fetchData(); 
+  }, []);
+  
+  if (loading) {
+    return (
+      <Loading />
+    )
+  }
+
 
   return (
     <>
@@ -37,12 +77,22 @@ export function SummaryTable() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
+
+      { 
+      summary &&
       <View className="flex-row flex-wrap">
         {
           datesFromYearStart.map(date => {
+            const dayWithHabits = summary.find(day => {
+              return dayjs(date).isSame(day.date, 'day')
+            })
+
             return (
               <HabitDay 
                 key={date.toISOString()}
+                date={date}
+                amountOfHabits={dayWithHabits?.amount}
+                amountCompleted={dayWithHabits?.completed}
                 onPress={() => navigate('habit', { date: date.toString() })}
               />
             )
@@ -67,6 +117,7 @@ export function SummaryTable() {
             ))
         }
       </View>
+      }
       </ScrollView>
     </>
   ) 

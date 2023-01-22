@@ -10,13 +10,13 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/habits', async (request) => {
     const createHabitBody = z.object({
       title: z.string(),
-      habitWeekDays: z.array(
+      weekDays: z.array(
         z.number().min(0).max(6)
       )
     })
 
     //Essa linha chama a validação acima.
-    const { title, habitWeekDays } = createHabitBody.parse(request.body);
+    const { title, weekDays } = createHabitBody.parse(request.body);
 
     const today = dayjs().startOf('day').toDate()
 
@@ -26,7 +26,7 @@ export async function appRoutes(app: FastifyInstance) {
         created_at: today,
         habitWeekDays: {
 
-          create: habitWeekDays.map(day => {
+          create: weekDays.map(day => {
             return {
               week_day: day,
             }
