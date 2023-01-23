@@ -69,7 +69,18 @@ export function NewHabitForm() {
         type="text"
         id="text"
         placeholder="ex.: Exercícios, dormir bem, etc..."
-        className="p-4 rounded-lg mt-3 bg-zinc-800 text-white placeholder:text-zinc-400"
+        className="
+          p-4 
+          rounded-lg 
+          mt-3 
+          bg-zinc-800 
+          text-white 
+          placeholder:text-zinc-400
+          focus:outline-none
+          focus:ring-2
+          focus:ring-blue-600
+          focus:ring-offset-2
+          focus:ring-offset-zinc-900"
         autoFocus
         onChange={event => setTitle(event.target.value)}
         value={title}
@@ -86,7 +97,8 @@ export function NewHabitForm() {
             return (
               <Checkbox.Root
                 key={index}
-                className="flex items-center gap-3 group"
+                className="
+                  flex items-center gap-3 group focus:outline-none"
                 onCheckedChange={() => handleToggleWeekDay(index)}
                 checked={weekDays.includes(index)}
               >
@@ -101,7 +113,12 @@ export function NewHabitForm() {
                   border-2
                   border-zinc-800
                   group-data-[state=checked]:bg-green-500
-                  group-data-[state=checked]:border-green-500"
+                  group-data-[state=checked]:border-green-500
+                  transition-colors
+                  group-focus:ring-2
+                  group-focus:ring-blue-600
+                  group-focus:ring-offset-2
+                  group-focus:ring-offset-background"
                 >
                   <Checkbox.Indicator>
                     <Check size={20} className="text-white" />
@@ -133,7 +150,13 @@ export function NewHabitForm() {
           gap-5 
           font-semibold
           bg-green-600
-          hover:bg-green-500"
+          hover:bg-green-500
+          tansition-colors
+          focus:outline-none
+          focus:ring-2
+          focus:ring-green-600
+          focus:ring-offset-2
+          focus:ring-offset-zinc-900"
       >
         <Check size={20} weight="bold" />
         Confirmar

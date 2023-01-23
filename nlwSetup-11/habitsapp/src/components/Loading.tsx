@@ -10,7 +10,7 @@ export function Loading() {
         alignItems: 'center', 
         backgroundColor: '#09090A' 
     }}>
-      <ActivityIndicator color="#7C3AED" />
+      <ActivityIndicator color="blue" />
     </View>
   );
 }

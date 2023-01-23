@@ -29,7 +29,13 @@ export function Header() {
               flex
               items-center
               gap-3
-              hover:border-blue-300"
+              hover:border-blue-300
+              transition-colors
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-600
+              focus:ring-offset-2
+              focus:ring-offset-background"
           >
             <Plus size={20} className="text-blue-500" />
             Novo hábito
@@ -52,7 +58,18 @@ export function Header() {
                 -translate-y-1/2"
             >
               <Dialog.Close 
-                className="absolute right-6 top-6 text-zinc-400 hover:text-zinc-200"
+                className="
+                  absolute 
+                  right-6 
+                  top-6 
+                  text-zinc-400 
+                  rounded-lg
+                  hover:text-zinc-200
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-600
+                  focus:ring-offset-2
+                  focus:ring-offset-background"
               >
                 <X size={24} aria-label="fechar" />
               </Dialog.Close>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
 
 import { api } from '../lib/axios';
@@ -34,7 +34,7 @@ export function SummaryTable() {
       const response = await api.get('/summary');
       setSummary(response.data);
  
-      console.log(summary);
+      //console.log(summary);
       
     } catch (error) {
       Alert.alert('Ops', 'Não foi pssível carregar o sumário!');
@@ -44,9 +44,9 @@ export function SummaryTable() {
     }
   }
   
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     fetchData(); 
-  }, []);
+  }, []));
   
   if (loading) {
     return (
