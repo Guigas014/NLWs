@@ -1,12 +1,12 @@
 import { ReactNode } from 'react'
 import './globals.css'
 import { 
-  Inter,  
+  Roboto_Serif as Roboto,  
   Bai_Jamjuree as BaiJamJuree 
 } from 'next/font/google'
 
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto' })
 
 const baiJamjuree = BaiJamJuree({ 
   subsets: ['latin'], 
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`
-        ${inter.variable} 
+        ${roboto.variable} 
         ${baiJamjuree.variable} 
         font-sans 
         bg-gray-900
