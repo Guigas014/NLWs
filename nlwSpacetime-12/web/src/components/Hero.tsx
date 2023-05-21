@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 import nlwLogo from '../assets/nlw-spacetime-logo.svg'
 
@@ -18,8 +19,8 @@ export function Hero() {
             </p>
           </div>
           
-          <a 
-            href="" 
+          <Link
+            href="/memories/new" 
             className="
               inline-block
               rounded-full
@@ -34,7 +35,7 @@ export function Hero() {
               hover:bg-green-600"
           >
             CADASTRAR LEMBRANÇA
-          </a>
+          </Link>
         </div>                
   )
 }
