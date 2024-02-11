@@ -3,11 +3,13 @@ package com.rocketseat.nlwexpert14.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rocketseat.nlwexpert14.dto.StudentCertificationAnswersDTO;
+import com.rocketseat.nlwexpert14.dto.VerifyHasCertificationDTO;
 import com.rocketseat.nlwexpert14.model.AnswersCertificationsEntity;
 import com.rocketseat.nlwexpert14.model.CertificationStudentEntity;
 import com.rocketseat.nlwexpert14.model.QuestionEntity;
@@ -28,7 +30,19 @@ public class StudentCertificationAnswersService {
       @Autowired
       private CertificationStudentRepository certificationStudentRepository;
 
-      public CertificationStudentEntity execute(StudentCertificationAnswersDTO dto) {
+      @Autowired
+      private VerifyIfHasCertificationService verifyIfHasCertificationService;
+
+      public CertificationStudentEntity execute(StudentCertificationAnswersDTO dto) throws Exception {
+
+            // Verifica se o usuário já tirou a certificação
+            var hasCertification = this.verifyIfHasCertificationService
+                        .execute(new VerifyHasCertificationDTO(dto.getEmail(), dto.getTechnology()));
+
+            if (hasCertification) {
+                  throw new Exception("Você já tirou a certificação!");
+            }
+
             // Verifica se o usuário existe
             var student = studentRepository.findByEmail(dto.getEmail());
             UUID studentID;
@@ -44,6 +58,11 @@ public class StudentCertificationAnswersService {
             // Busca as alternativas das perguntas, correta ou incorreta
             List<QuestionEntity> questionsEntity = questionRepository.findByTechnology(dto.getTechnology());
 
+            // Lista das answerCertification
+            List<AnswersCertificationsEntity> answersCertifications = new ArrayList<>();
+
+            AtomicInteger correctAnswersAmount = new AtomicInteger(0);
+
             dto.getQuestionsAnswers().stream().forEach(questionAnswer -> {
                   // Pego a questão que tem o mesmo id.
                   var question = questionsEntity.stream()
@@ -55,19 +74,28 @@ public class StudentCertificationAnswersService {
 
                   if (findCorrectAlternative.getId().equals(questionAnswer.getAlternativeID())) {
                         questionAnswer.setCorrect(true);
+                        correctAnswersAmount.incrementAndGet();
                   } else {
                         questionAnswer.setCorrect(false);
                   }
 
-            });
+                  // Seta os valores da answerCertification e coloca na lista
+                  // answersCertifications
+                  var answersCertificationsEntity = AnswersCertificationsEntity.builder()
+                              .answerID(questionAnswer.getAlternativeID())
+                              .questionID(questionAnswer.getQuestionID())
+                              .studentID(studentID)
+                              .isCorrect(questionAnswer.isCorrect()).build();
 
-            // Pega as answerCertification
-            List<AnswersCertificationsEntity> answersCertifications = new ArrayList<>();
+                  answersCertifications.add(answersCertificationsEntity);
+
+            });
 
             // Cria o objeto que será salvo na tabela certifications.
             CertificationStudentEntity certificationStudentEntity = CertificationStudentEntity.builder()
                         .technology(dto.getTechnology())
                         .studentID(studentID)
+                        .grade(correctAnswersAmount.get())
                         .answersCertificationsEntities(answersCertifications)
                         .build();
 

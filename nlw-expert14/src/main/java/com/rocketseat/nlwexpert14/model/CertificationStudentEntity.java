@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class CertificationStudentEntity {
       @JoinColumn(name = "student_id", insertable = false, updatable = false)
       private StudentEntity studentEntity;
 
-      @OneToMany(mappedBy = "certificationStudentEntity")
+      @OneToMany(mappedBy = "certificationStudentEntity", cascade = CascadeType.ALL)
       List<AnswersCertificationsEntity> answersCertificationsEntities;
 
       @CreationTimestamp
