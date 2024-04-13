@@ -12,7 +12,8 @@ public class EventResponseDTO {
       EventDetailDTO event;
 
       public EventResponseDTO(Event event, Integer numberOfAteendees) {
-            this.event = new EventDetailDTO(event.getId(), event.getTitle(), event.getDetails(), event.getSlug(),
+            this.event = new EventDetailDTO(event.getId(), event.getCode(), event.getTitle(), event.getDetails(),
+                        event.getSlug(),
                         event.getMaximumAttendees(), numberOfAteendees);
       }
 }

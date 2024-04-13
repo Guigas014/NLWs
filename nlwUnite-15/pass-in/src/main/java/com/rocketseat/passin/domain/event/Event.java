@@ -24,6 +24,9 @@ public class Event {
       @Column(nullable = false)
       private String id;
 
+      @Column(nullable = false, unique = true)
+      private Integer code;
+
       @Column(nullable = false)
       private String title;
 
