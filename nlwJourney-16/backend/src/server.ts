@@ -9,32 +9,48 @@ import { createTrip } from "./routes/create-trip"
 import { confirmTrip } from "./routes/confirm-trip"
 import { confirmParticipant } from "./routes/confirm-participant"
 import { createActivity } from "./routes/create-activity"
-import { listActivity } from "./routes/list-activities"
+import { listActivities } from "./routes/list-activities"
 import { createLink } from "./routes/create-link"
 import { listLinks } from "./routes/list-links"
+import { listParticipants } from "./routes/list-participants"
+import { createInvite } from "./routes/create-invite"
+import { updateTrip } from "./routes/update-trip"
+import { listTripDetails } from "./routes/list-trip-details"
+import { listParticipant } from "./routes/list-participant"
+import { errorHandler } from "./error-handler"
+import { env } from "./env"
 // import { prisma } from "./lib/prisma"
 
 const app = fastify()
 
 app.register(cors, {
-  origin: "http://localhost:3000",
+  origin: env.WEB_BASE_URL,
 })
 
 //Para essas linhas o ZOD deve estar instalados
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
+//Tratamento dos error
+app.setErrorHandler(errorHandler)
+
 //Rotas
 app.register(createTrip)
 app.register(confirmTrip)
+app.register(updateTrip)
+app.register(listTripDetails)
 
 app.register(confirmParticipant)
+app.register(listParticipants)
+app.register(listParticipant)
 
 app.register(createActivity)
-app.register(listActivity)
+app.register(listActivities)
 
 app.register(createLink)
 app.register(listLinks)
+
+app.register(createInvite)
 
 // app.get("/cadastrar", async () => {
 //   await prisma.trip.create({
@@ -54,6 +70,6 @@ app.register(listLinks)
 //   return trips
 // })
 
-app.listen({ port: 3333 }).then(() => {
+app.listen({ port: env.PORT }).then(() => {
   console.log("Server is running!!")
 })
