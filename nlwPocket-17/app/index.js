@@ -1,7 +1,29 @@
 const { select, input, checkbox } = require("@inquirer/prompts")
+const fs = require("fs").promises
 
 let mensagem = "Bem vindo ao App de metas!"
-let metas = []
+let metas
+
+const carregarMetas = async () => {
+  try {
+    const dados = await fs.readFile("metas.json", "utf-8")
+
+    // Transforma o objeto JSON em um objeto do tipo JS
+    metas = JSON.parse(dados)
+  } catch (error) {
+    // console.log(error.data)
+    metas = []
+  }
+}
+
+const salvarMetas = async () => {
+  try {
+    // Transforma o objeto do tipo JS em um objeto do tipo JSON
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2))
+  } catch (error) {
+    // console.log(error.data)
+  }
+}
 
 async function cadastrarMeta() {
   const meta = await input({ message: "Digite a meta: " })
@@ -17,6 +39,11 @@ async function cadastrarMeta() {
 }
 
 async function listarMetas() {
+  if (metas.length == 0) {
+    mensagem = "Não existem metas cadastradas!"
+    return
+  }
+
   const respostas = await checkbox({
     message:
       "Use as setas para mudar de meta, o espaço para marcar e desmarcar e o Enter para finalizar essa etapa",
@@ -78,6 +105,11 @@ async function metasAbertas() {
 }
 
 async function deletaMetas() {
+  if (metas.length == 0) {
+    mensagem = "Não existem metas cadastradas!"
+    return
+  }
+
   const metasDesmarcadas = metas.map((meta) => {
     return { value: meta.value, checked: false }
   })
@@ -113,8 +145,11 @@ function mostrarMensagem() {
 }
 
 const start = async () => {
+  carregarMetas()
+
   while (true) {
     mostrarMensagem()
+    await salvarMetas()
 
     const opcao = await select({
       message: "Menu >",
@@ -149,7 +184,6 @@ const start = async () => {
     switch (opcao) {
       case "cadastrar":
         await cadastrarMeta()
-        //   console.log(metas)
         break
       case "listar":
         await listarMetas()
