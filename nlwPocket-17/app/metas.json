@@ -2,5 +2,9 @@
   {
     "value": "Dormir cedo",
     "checked": false
+  },
+  {
+    "value": "Acordar cedo",
+    "checked": true
   }
 ]
