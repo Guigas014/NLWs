@@ -1,7 +1,6 @@
 package com.nlw.events.service;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 

@@ -6,6 +6,8 @@ import { User, Mail, ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter, useSearchParams } from "next/navigation"
+import { api } from "@/pages/api/api"
 
 const subscriptionSchema = z.object({
   name: z.string().min(2, "Digite seu nome completo"),
@@ -15,6 +17,9 @@ const subscriptionSchema = z.object({
 type SubscriptionSchema = z.infer<typeof subscriptionSchema>
 
 export function SubscriptionForm() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
   const {
     register,
     handleSubmit,
@@ -23,8 +28,38 @@ export function SubscriptionForm() {
     resolver: zodResolver(subscriptionSchema),
   })
 
-  function onSubscribe(data: SubscriptionSchema) {
+  async function onSubscribe(data: SubscriptionSchema) {
+    // const referrer = searchParams?.get("referrer") // É o id que vem no paramertro da URL
+
     console.log(data)
+
+    const response = await api
+      .post("subscription/hagatom-java-2025", {
+        name: data.name,
+        email: data.email,
+      })
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error(error)
+      })
+
+    console.log(response)
+
+    const subscriberId = response.subscriptionNumber
+    router.push(`/invite/${subscriberId}`)
+
+    // const response = await fetch(
+    //   "http://localhost:8080/subscription/hagatom-java-2025",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ name: data.name, email: data.email, referrer }),
+    //   }
+    // )
+    // const user = await response.json()
+    // console.log(user)
   }
 
   return (
