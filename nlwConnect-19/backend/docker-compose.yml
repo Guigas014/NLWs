@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.4
-    restart: always
+    # restart: always
     container_name: mysql-nlw
     environment:
       - MYSQL_ROOT_PASSWORD=mysql
