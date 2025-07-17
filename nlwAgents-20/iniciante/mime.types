@@ -1,0 +1,15 @@
+# Arquivo mime.types básico
+
+types {
+  text/html        html htm;
+  text/css         css;
+  text/javascript  js;
+  text/xml         xml;
+  application/json json;
+  application/xml  xml;
+  application/pdf  pdf;
+  image/jpeg       jpeg jpg;
+  image/png        png;
+  image/svg+xml    svg;
+  image/gif        gif;
+}
